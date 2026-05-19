@@ -480,6 +480,48 @@ app.get("/api/test-email", async (req, res) => {
     }
 });
 
+app.get("/api/test-email", async (req, res) => {
+    try {
+        const key = req.query.key;
+        const to = req.query.to;
+
+        if (key !== process.env.ADMIN_DOWNLOAD_KEY) {
+            return res.status(401).send("Unauthorised");
+        }
+
+        if (!to) {
+            return res.status(400).send("Please provide ?to=email@utp.edu.my");
+        }
+
+        if (!transporter) {
+            return res.status(500).send("Email transporter is not configured. Check Render environment variables.");
+        }
+
+        await transporter.verify();
+
+        await transporter.sendMail({
+            from: process.env.SMTP_FROM || process.env.SMTP_USER,
+            to,
+            subject: "UTP Stellar Email Test",
+            html: `
+                <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                    <h2>UTP Stellar Email Test ✨</h2>
+                    <p>If you received this, the deployed website email system is working.</p>
+                </div>
+            `
+        });
+
+        res.send("Test email sent successfully.");
+    } catch (error) {
+        console.error("Test email failed:", error);
+        res.status(500).send(`
+            Test email failed.<br><br>
+            Error code: ${error.code || "N/A"}<br>
+            Response: ${error.response || error.message}
+        `);
+    }
+});
+
 // ===============================
 // START SERVER
 // ===============================
