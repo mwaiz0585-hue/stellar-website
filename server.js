@@ -42,7 +42,7 @@ const ai = new GoogleGenAI({
 });
 
 // ===============================
-// EMAIL SETUP
+// EMAIL SETUP — FORCE SMTP IPV4
 // ===============================
 
 const mailerReady =
@@ -51,27 +51,64 @@ const mailerReady =
     process.env.SMTP_USER &&
     process.env.SMTP_PASS;
 
-const transporter = mailerReady
-    ? nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
-        secure: false,
-        requireTLS: true,
-        connectionTimeout: 15000,
-        greetingTimeout: 15000,
-        socketTimeout: 15000,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
-        },
-        tls: {
-            servername: process.env.SMTP_HOST
+let transporter = null;
+let transporterPromise = null;
+
+async function getEmailTransporter() {
+    if (!mailerReady) {
+        console.warn("Email is not configured. Check SMTP environment variables.");
+        return null;
+    }
+
+    if (transporter) {
+        return transporter;
+    }
+
+    if (transporterPromise) {
+        return transporterPromise;
+    }
+
+    transporterPromise = (async () => {
+        const smtpHostname = process.env.SMTP_HOST;
+
+        console.log("Resolving SMTP IPv4 for:", smtpHostname);
+
+        const ipv4Addresses = await dns.promises.resolve4(smtpHostname);
+
+        if (!ipv4Addresses || ipv4Addresses.length === 0) {
+            throw new Error("No IPv4 address found for SMTP host.");
         }
-    })
-    : null;
+
+        const smtpIPv4 = ipv4Addresses[0];
+
+        console.log("Using SMTP IPv4:", smtpIPv4);
+
+        transporter = nodemailer.createTransport({
+            host: smtpIPv4,
+            port: Number(process.env.SMTP_PORT),
+            secure: false,
+            requireTLS: true,
+            connectionTimeout: 20000,
+            greetingTimeout: 20000,
+            socketTimeout: 20000,
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS
+            },
+            tls: {
+                servername: smtpHostname,
+                minVersion: "TLSv1.2"
+            }
+        });
+
+        return transporter;
+    })();
+
+    return transporterPromise;
+}
 
 console.log("Email config loaded:", {
-    mailerReady,
+    mailerReady: Boolean(mailerReady),
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_USER: process.env.SMTP_USER,
@@ -144,8 +181,14 @@ function saveApplicationToCSV(application) {
     fs.appendFileSync(csvPath, row + "\n");
 }
 
+// ===============================
+// EMAIL SENDING FUNCTION
+// ===============================
+
 async function sendConfirmationEmail(application) {
-    if (!transporter) {
+    const emailTransporter = await getEmailTransporter();
+
+    if (!emailTransporter) {
         console.warn("Email is not configured. Application saved without email.");
         return false;
     }
@@ -163,8 +206,7 @@ async function sendConfirmationEmail(application) {
     const safeReason = escapeHTML(application.reason);
     const safeSkills = escapeHTML(application.skills || "-");
 
-    // Email to applicant
-    await transporter.sendMail({
+    await emailTransporter.sendMail({
         from: process.env.SMTP_FROM || process.env.SMTP_USER,
         to: application.email,
         subject: "UTP Stellar Recruitment Application Received",
@@ -208,9 +250,8 @@ async function sendConfirmationEmail(application) {
         `
     });
 
-    // Email to Membership department
     if (process.env.MEMBERSHIP_EMAIL) {
-        await transporter.sendMail({
+        await emailTransporter.sendMail({
             from: process.env.SMTP_FROM || process.env.SMTP_USER,
             to: process.env.MEMBERSHIP_EMAIL,
             subject: `New UTP Stellar Recruitment Application - ${safeName}`,
@@ -267,6 +308,7 @@ Website sections:
 - AI Space Assistant
 - Shop Catalogue
 - Recruitment Drive
+- Stellar Defender Booth Challenge
 
 Leadership team:
 - President: Ziyad
@@ -290,6 +332,10 @@ Recruitment Drive:
 - Time: 9:00 PM - 11:00 PM
 - Venue: V4 Cafe
 - Students must use their UTP email ending with @utp.edu.my.
+
+Booth Game:
+- Stellar Defender is a 3-level mini game.
+- Students who complete all 3 levels can show the Mission Complete screen to claim a souvenir.
 
 Response style:
 - Be friendly, simple, and student-friendly.
@@ -411,21 +457,36 @@ app.post("/api/recruitment", async (req, res) => {
             });
         }
 
-        saveApplicationToCSV(application);
+        try {
+            saveApplicationToCSV(application);
+        } catch (fileError) {
+            console.error("CSV saving failed:", fileError);
 
-// Reply to user immediately first
-res.json({
-    message: "Your application has been received. The Recruitment Drive team will get back to you soon."
-});
+            if (fileError.code === "EBUSY") {
+                return res.status(500).json({
+                    message: "The recruitment CSV file is currently open. Please close it and submit again."
+                });
+            }
 
-// Send email in the background after response
-sendConfirmationEmail(application)
-    .then(() => {
-        console.log("Confirmation email sent to:", application.email);
-    })
-    .catch((emailError) => {
-        console.error("Background email sending failed:", emailError);
-    });
+            return res.status(500).json({
+                message: "Unable to save the application data. Please try again."
+            });
+        }
+
+        let emailSent = false;
+
+        try {
+            emailSent = await sendConfirmationEmail(application);
+            console.log("Confirmation email sent to:", application.email);
+        } catch (emailError) {
+            console.error("Email sending failed:", emailError);
+        }
+
+        res.json({
+            message: emailSent
+                ? "Your application has been received. A confirmation email has been sent to your UTP email."
+                : "Your application has been received. The Recruitment Drive team will get back to you soon."
+        });
 
     } catch (error) {
         console.error("Recruitment submission error:", error);
@@ -436,7 +497,10 @@ sendConfirmationEmail(application)
     }
 });
 
-// Download applicant data as CSV
+// ===============================
+// DOWNLOAD CSV
+// ===============================
+
 app.get("/api/recruitment/download", (req, res) => {
     const key = req.query.key;
 
@@ -451,6 +515,9 @@ app.get("/api/recruitment/download", (req, res) => {
     res.download(csvPath, "utp-stellar-recruitment-applications.csv");
 });
 
+// ===============================
+// TEST EMAIL ROUTE
+// ===============================
 
 app.get("/api/test-email", async (req, res) => {
     try {
@@ -465,15 +532,19 @@ app.get("/api/test-email", async (req, res) => {
             return res.status(400).send("Please provide ?to=email@utp.edu.my");
         }
 
-        if (!transporter) {
+        const emailTransporter = await getEmailTransporter();
+
+        if (!emailTransporter) {
             return res.status(500).send(`
-                Email transporter is not configured.<br><br>
-                Check these Render environment variables:<br>
-                SMTP_HOST<br>
-                SMTP_PORT<br>
-                SMTP_USER<br>
-                SMTP_PASS<br>
-                SMTP_FROM
+                <h2>Email transporter is not configured.</h2>
+                <p>Check Render environment variables:</p>
+                <ul>
+                    <li>SMTP_HOST</li>
+                    <li>SMTP_PORT</li>
+                    <li>SMTP_USER</li>
+                    <li>SMTP_PASS</li>
+                    <li>SMTP_FROM</li>
+                </ul>
             `);
         }
 
@@ -481,9 +552,9 @@ app.get("/api/test-email", async (req, res) => {
         console.log("SMTP user:", process.env.SMTP_USER);
         console.log("Sending test email to:", to);
 
-        await transporter.verify();
+        await emailTransporter.verify();
 
-        await transporter.sendMail({
+        await emailTransporter.sendMail({
             from: process.env.SMTP_FROM || process.env.SMTP_USER,
             to,
             subject: "UTP Stellar Email Test",
@@ -496,6 +567,7 @@ app.get("/api/test-email", async (req, res) => {
         });
 
         res.send("Test email sent successfully.");
+
     } catch (error) {
         console.error("Test email failed:", error);
 
@@ -505,48 +577,6 @@ app.get("/api/test-email", async (req, res) => {
             <p><strong>Response code:</strong> ${error.responseCode || "N/A"}</p>
             <p><strong>Command:</strong> ${error.command || "N/A"}</p>
             <p><strong>Message:</strong> ${error.response || error.message}</p>
-        `);
-    }
-});
-
-app.get("/api/test-email", async (req, res) => {
-    try {
-        const key = req.query.key;
-        const to = req.query.to;
-
-        if (key !== process.env.ADMIN_DOWNLOAD_KEY) {
-            return res.status(401).send("Unauthorised");
-        }
-
-        if (!to) {
-            return res.status(400).send("Please provide ?to=email@utp.edu.my");
-        }
-
-        if (!transporter) {
-            return res.status(500).send("Email transporter is not configured. Check Render environment variables.");
-        }
-
-        await transporter.verify();
-
-        await transporter.sendMail({
-            from: process.env.SMTP_FROM || process.env.SMTP_USER,
-            to,
-            subject: "UTP Stellar Email Test",
-            html: `
-                <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-                    <h2>UTP Stellar Email Test ✨</h2>
-                    <p>If you received this, the deployed website email system is working.</p>
-                </div>
-            `
-        });
-
-        res.send("Test email sent successfully.");
-    } catch (error) {
-        console.error("Test email failed:", error);
-        res.status(500).send(`
-            Test email failed.<br><br>
-            Error code: ${error.code || "N/A"}<br>
-            Response: ${error.response || error.message}
         `);
     }
 });
