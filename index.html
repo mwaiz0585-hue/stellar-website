@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UTP Stellar Astronomy Club</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- STARTUP SCREEN -->
+    <section id="startup-screen">
+        <video id="startup-video" autoplay muted playsinline loop>
+            <source src="videos/startup.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div id="logo-screen">
+            <img src="images/logo.png" alt="UTP Stellar Logo" id="startup-logo">
+
+          <p>Click the logo to enter</p>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN WEBSITE -->
+    <main id="main-website">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+            <div class="nav-logo">
+                <img src="images/logo.png" alt="UTP Stellar Logo">
+                <span>UTP Stellar Astronomy Club</span>
+            </div>
+
+            <nav>
+                <a href="#who">Who We Are</a>
+                <a href="#mission">Mission</a>
+                <a href="#team">Team</a>
+                <a href="#projects">Projects</a>
+                <a href="#game">Game</a>
+                <a href="#ai">AI</a>
+                <a href="#shop">Shop</a>
+            </nav>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="tagline">UTP Astronomy Club</p>
+
+                <h1>Bringing the Universe Closer, One Star at a Time</h1>
+
+                <p>
+                    Welcome to UTP Stellar Astronomy Club — a community for students who love
+                    astronomy, space science, innovation, leadership, and unforgettable night sky experiences.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#apply" class="primary-btn">Apply Now</a>
+                    <a href="#who" class="secondary-btn">Explore Club</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- APPLY -->
+<section id="apply" class="section highlight-section apply-section">
+    <div class="section-header">
+        <p class="small-title">Recruitment Drive</p>
+        <h2>Apply Now for New Committee</h2>
+    </div>
+
+    <p>
+        Become part of UTP Stellar Astronomy Club 2026. Choose your preferred department,
+        share your background, and our Recruitment Drive team will get back to you soon.
+    </p>
+
+    <div class="recruitment-info">
+        <h3>Recruitment Drive Session</h3>
+        <p><strong>Date:</strong> 3 June 2026</p>
+        <p><strong>Time:</strong> 9:00 PM - 11:00 PM</p>
+        <p><strong>Venue:</strong> V4 Cafe</p>
+    </div>
+
+    <div class="department-jobscopes">
+    <div class="jobscope-card">
+        <h3>Stargazing</h3>
+        <p>
+            Plan and conduct stargazing sessions, handle telescope setup, guide participants during
+            sky observation, and promote astronomy appreciation.
+        </p>
+    </div>
+
+    <div class="jobscope-card">
+        <h3>Media & Marketing</h3>
+        <p>
+            Create posters, social media content, videos, photography coverage, promotional materials,
+            and manage event publicity.
+        </p>
+    </div>
+
+    <div class="jobscope-card">
+        <h3>Academic & Outreach</h3>
+        <p>
+            Organise educational programmes, workshops, school outreach, astronomy learning activities,
+            and knowledge-sharing sessions.
+        </p>
+    </div>
+
+    <div class="jobscope-card">
+        <h3>Membership & Engagement</h3>
+        <p>
+            Manage member engagement, recruitment, bonding activities, internal programmes, and maintain
+            good communication among members.
+        </p>
+    </div>
+
+    <div class="jobscope-card">
+        <h3>Business & Sponsorship</h3>
+        <p>
+            Seek sponsorships, manage partnerships, approach organisations, support funding efforts,
+            and help generate resources for club activities.
+        </p>
+    </div>
+</div>
+
+    <form id="recruitment-form" class="recruitment-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="applicant-name">Full Name *</label>
+                <input type="text" id="applicant-name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="student-id">Student ID *</label>
+                <input type="text" id="student-id" name="studentId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="utp-email">UTP Email *</label>
+                <input 
+                    type="email" 
+                    id="utp-email" 
+                    name="email" 
+                    placeholder="example@utp.edu.my"
+                    pattern="^[a-zA-Z0-9._%+-]+@utp\.edu\.my$"
+                    title="Please use your official UTP email ending with @utp.edu.my"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="phone-number">Phone Number *</label>
+                <input type="text" id="phone-number" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="programme">Programme *</label>
+                <select id="programme" name="programme" required>
+                    <option value="">Select programme</option>
+                    <option>Chemical Engineering</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Material Engineering</option>
+                    <option>Civil and Environmental Engineering</option>
+                    <option>Petroleum Engineering</option>
+                    <option>Electrical and Electronics Engineering</option>
+                    <option>Computer Engineering</option>
+                    <option>Applied Chemistry</option>
+                    <option>Petroleum Geoscience</option>
+                    <option>Computer Science</option>
+                    <option>Information System</option>
+                    <option>Information Technology</option>
+                    <option>Business Management</option>
+                    <option>Others</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year-semester">Year and Semester *</label>
+                <input type="text" id="year-semester" name="yearSemester" placeholder="Example: Year 2 Semester 1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="internship-semester">Internship Semester</label>
+                <input type="text" id="internship-semester" name="internshipSemester" placeholder="Example: Jan 2027 / Not yet">
+            </div>
+
+            <div class="form-group">
+                <label for="first-department">First Choice Department *</label>
+               <select id="first-department" name="firstDepartment" required>
+    <option value="">Select department</option>
+    <option>Stargazing</option>
+    <option>Media & Marketing</option>
+    <option>Academic & Outreach</option>
+    <option>Membership & Engagement</option>
+    <option>Business & Sponsorship</option>
+</select>
+            </div>
+
+            <div class="form-group">
+                <label for="second-department">Second Choice Department *</label>
+              <select id="second-department" name="secondDepartment" required>
+    <option value="">Select department</option>
+    <option>Stargazing</option>
+    <option>Media & Marketing</option>
+    <option>Academic & Outreach</option>
+    <option>Membership & Engagement</option>
+    <option>Business & Sponsorship</option>
+</select>
+            </div>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="experience">Have you joined any committee, club, or event before? *</label>
+            <textarea id="experience" name="experience" rows="4" placeholder="Example: Yes, I was part of..." required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="reason">Why do you want to join UTP Stellar? *</label>
+            <textarea id="reason" name="reason" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="skills">Relevant skills or strengths</label>
+            <textarea id="skills" name="skills" rows="3" placeholder="Example: design, leadership, public speaking, sponsorship, event planning..."></textarea>
+        </div>
+
+        <button type="submit" id="recruitment-submit-btn" class="primary-btn">
+            Submit Application
+        </button>
+
+        <p id="recruitment-status" class="recruitment-status"></p>
+    </form>
+</section>
+
+<!-- STELLAR DEFENDER GAME -->
+<section id="game" class="section game-section">
+    <div class="section-header">
+        <p class="small-title">Booth Challenge</p>
+        <h2>Stellar Defender</h2>
+    </div>
+
+    <p>
+        Take control of the Stellar spacecraft and defend the galaxy. Clear all 3 levels
+        to complete the booth challenge and claim your souvenir.
+    </p>
+
+    <div class="game-wrapper">
+        <div class="game-info-panel">
+            <div>
+                <h3>Mission Rules</h3>
+                <p>Clear Level 1, Level 2, and defeat the Level 3 boss.</p>
+            </div>
+
+            <div class="game-stats">
+                <span>Level: <strong id="game-level">1</strong></span>
+                <span>Score: <strong id="game-score">0</strong></span>
+                <span>Lives: <strong id="game-lives">3</strong></span>
+            </div>
+        </div>
+
+        <div class="game-canvas-box">
+            <canvas id="stellar-game" width="800" height="500"></canvas>
+
+            <div id="game-overlay" class="game-overlay">
+                <h3>STELLAR DEFENDER</h3>
+                <p>Clear 3 levels to complete the UTP Stellar Booth Challenge.</p>
+                <button id="start-game-btn">Start Mission</button>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="move-left-btn">←</button>
+            <button id="shoot-btn">Shoot</button>
+            <button id="move-right-btn">→</button>
+        </div>
+
+        <p class="game-control-text">
+            Laptop controls: A / ← to move left, D / → to move right, Spacebar to shoot.
+        </p>
+    </div>
+</section>
+
+        <!-- WHO WE ARE -->
+        <section id="who" class="section">
+            <div class="section-header">
+                <p class="small-title">About Us</p>
+                <h2>Who We Are</h2>
+            </div>
+
+            <p>
+                UTP Stellar Astronomy Club is a student organisation dedicated to promoting astronomy,
+                space education, science communication, and community engagement within Universiti Teknologi PETRONAS.
+                We bring students closer to the universe through events, stargazing activities, talks, workshops,
+                outreach programmes, and creative projects.
+            </p>
+        </section>
+
+        <!-- MISSION -->
+        <section id="mission" class="section">
+            <div class="section-header">
+                <p class="small-title">Purpose</p>
+                <h2>Our Mission</h2>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Inspire</h3>
+                    <p>
+                        To inspire students to explore astronomy, space science, and the beauty of the night sky.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Educate</h3>
+                    <p>
+                        To organise meaningful events, talks, workshops, and stargazing activities for the UTP community.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Connect</h3>
+                    <p>
+                        To build a passionate community that connects people through curiosity, discovery, and space.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM -->
+        <!-- TEAM -->
+<section id="team" class="section highlight-section">
+    <div class="section-header">
+        <p class="small-title">People Behind Stellar</p>
+        <h2>HICOM & ADVISOR</h2>
+    </div>
+
+    <p>
+        Meet the leadership team behind UTP Stellar Astronomy Club 2026 — the people guiding,
+        organising, and supporting our club initiatives.
+    </p>
+
+    <div class="leadership-grid">
+        <div class="leadership-card">
+            <img src="images/leadership/advisor.png" alt="Advisor">
+            <div class="leadership-info">
+                <h3>Advisor</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/co-advisor.png" alt="Co-Advisor">
+            <div class="leadership-info">
+                <h3>Co-Advisor</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/president.png" alt="President">
+            <div class="leadership-info">
+                <h3>President</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/vice-president.png" alt="Vice President">
+            <div class="leadership-info">
+                <h3>Vice President</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/secretary-1.png" alt="Secretary 1">
+            <div class="leadership-info">
+                <h3>Secretary I</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/secretary-2.png" alt="Secretary 2">
+            <div class="leadership-info">
+                <h3>Secretary II</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/treasurer-1.png" alt="Treasurer 1">
+            <div class="leadership-info">
+                <h3>Treasurer I</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+
+        <div class="leadership-card">
+            <img src="images/leadership/treasurer-2.png" alt="Treasurer 2">
+            <div class="leadership-info">
+                <h3>Treasurer II</h3>
+                <p>UTP Stellar Astronomy Club 2026</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+      <!-- UPCOMING EVENTS -->
+<section id="upcoming-events" class="section">
+    <div class="section-header">
+        <p class="small-title">Events & Memories</p>
+        <h2>Upcoming Events</h2>
+    </div>
+
+    <p>
+        Stay updated with UTP Stellar Astronomy Club’s upcoming programmes, workshops,
+        trips, stargazing activities, and community events for 2026.
+    </p>
+
+    <div id="event-timeline" class="event-timeline"></div>
+</section>
+
+<!-- PAST ACTIVITIES -->
+<section id="projects" class="section">
+    <div class="section-header">
+        <p class="small-title">Archive</p>
+        <h2>Past Activities 2026</h2>
+    </div>
+
+    <p>
+        Explore our previous activities, media collections, event moments, and creative works by
+        UTP Stellar Astronomy Club.
+    </p>
+
+    <div id="activity-grid" class="activity-grid"></div>
+</section>
+
+     <!-- AI -->
+<section id="ai" class="section highlight-section ai-section">
+    <div class="ai-content">
+        <div class="ai-text">
+            <p class="small-title">Now Available</p>
+            <h2>AI Space Assistant</h2>
+
+            <p>
+                Meet Stellar AI — your astronomy companion. Ask about constellations,
+                stargazing tips, club events, space facts, and UTP Stellar activities.
+            </p>
+
+            <div class="ai-features">
+                <div class="ai-feature">
+                    <h3>Space Facts</h3>
+                    <p>Learn astronomy facts in a simple and friendly way.</p>
+                </div>
+
+                <div class="ai-feature">
+                    <h3>Event Guide</h3>
+                    <p>Ask about UTP Stellar events and activities.</p>
+                </div>
+
+                <div class="ai-feature">
+                    <h3>Stargazing Help</h3>
+                    <p>Get basic guidance on what to observe in the night sky.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-chat-box">
+            <div class="ai-chat-header">
+                <div class="ai-status-dot"></div>
+                <span>Stellar AI Assistant</span>
+            </div>
+
+            <div id="ai-chat-messages" class="ai-chat-messages">
+                <div class="ai-message bot">
+                    Hi, I’m Stellar AI. Ask me anything about astronomy or UTP Stellar.
+                </div>
+            </div>
+
+            <form id="ai-chat-form" class="ai-input-preview">
+                <input 
+                    type="text" 
+                    id="ai-user-input" 
+                    placeholder="Ask Stellar AI..." 
+                    autocomplete="off"
+                >
+                <button type="submit" id="ai-send-btn">Send</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+        <!-- SHOP -->
+        <section id="shop" class="section">
+            <div class="section-header">
+                <p class="small-title">Merchandise</p>
+                <h2>Shop Catalogue</h2>
+            </div>
+
+            <p>
+                Club merchandise, astronomy-themed products, and exclusive Stellar items will be available soon.
+            </p>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Club T-Shirt</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="card">
+                    <h3>Stellar Hoodie</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="card">
+                    <h3>Sticker Pack</h3>
+                    <p>Coming soon</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <img src="images/logo.png" alt="UTP Stellar Logo">
+            <p>© 2026 UTP Stellar Astronomy Club. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- GALLERY POPUP -->
+    <div id="gallery-modal" class="gallery-modal">
+        <div class="gallery-content">
+            <button id="close-gallery" class="close-gallery">&times;</button>
+
+            <h2 id="gallery-title"></h2>
+
+            <p id="gallery-description"></p>
+
+            <div id="gallery-images" class="gallery-images"></div>
+        </div>
+    </div>
+
+    <!-- IMAGE ZOOM POPUP -->
+<div id="image-zoom-modal" class="image-zoom-modal">
+    <button id="close-zoom" class="close-zoom">&times;</button>
+    <img id="zoomed-image" src="" alt="Zoomed image">
+</div>
+
+   <script src="activities.js"></script>
+<script src="events.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
