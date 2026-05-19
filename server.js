@@ -54,9 +54,9 @@ const transporter = mailerReady
         port: Number(process.env.SMTP_PORT),
         secure: false,
         requireTLS: true,
-        connectionTimeout: 10000,
-        greetingTimeout: 10000,
-        socketTimeout: 10000,
+        connectionTimeout: 5000,
+        greetingTimeout: 5000,
+        socketTimeout: 5000,
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS
@@ -407,19 +407,19 @@ app.post("/api/recruitment", async (req, res) => {
 
         saveApplicationToCSV(application);
 
-        let emailSent = false;
+// Reply to user immediately first
+res.json({
+    message: "Your application has been received. The Recruitment Drive team will get back to you soon."
+});
 
-        try {
-            emailSent = await sendConfirmationEmail(application);
-        } catch (emailError) {
-            console.error("Email sending failed:", emailError);
-        }
-
-        res.json({
-            message: emailSent
-                ? "Your application has been received. A confirmation email has been sent to your UTP email."
-                : "Your application has been received. The Recruitment Drive team will get back to you soon."
-        });
+// Send email in the background after response
+sendConfirmationEmail(application)
+    .then(() => {
+        console.log("Confirmation email sent to:", application.email);
+    })
+    .catch((emailError) => {
+        console.error("Background email sending failed:", emailError);
+    });
 
     } catch (error) {
         console.error("Recruitment submission error:", error);
