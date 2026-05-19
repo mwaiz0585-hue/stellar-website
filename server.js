@@ -460,23 +460,46 @@ app.get("/api/test-email", async (req, res) => {
         }
 
         if (!transporter) {
-            return res.status(500).send("Email transporter is not configured. Check your .env SMTP settings.");
+            return res.status(500).send(`
+                Email transporter is not configured.<br><br>
+                Check these Render environment variables:<br>
+                SMTP_HOST<br>
+                SMTP_PORT<br>
+                SMTP_USER<br>
+                SMTP_PASS<br>
+                SMTP_FROM
+            `);
         }
+
+        console.log("Testing email from Render...");
+        console.log("SMTP user:", process.env.SMTP_USER);
+        console.log("Sending test email to:", to);
+
+        await transporter.verify();
 
         await transporter.sendMail({
             from: process.env.SMTP_FROM || process.env.SMTP_USER,
             to,
             subject: "UTP Stellar Email Test",
             html: `
-                <h2>UTP Stellar Email Test</h2>
-                <p>If you received this, the website email system is working.</p>
+                <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                    <h2>UTP Stellar Email Test ✨</h2>
+                    <p>If you received this, the deployed website email system is working.</p>
+                </div>
             `
         });
 
         res.send("Test email sent successfully.");
     } catch (error) {
         console.error("Test email failed:", error);
-        res.status(500).send("Test email failed. Check VS Code terminal for the full error.");
+
+        res.status(500).send(`
+            <h2>Test email failed</h2>
+            <p><strong>Error code:</strong> ${error.code || "N/A"}</p>
+            <p><strong>Response code:</strong> ${error.responseCode || "N/A"}</p>
+            <p><strong>Command:</strong> ${error.command || "N/A"}</p>
+            <p><strong>Message:</strong> ${error.response || error.message}</p>
+        `);
     }
 });
 
