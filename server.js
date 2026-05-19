@@ -6,6 +6,9 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import dns from "dns";
+
+dns.setDefaultResultOrder("ipv4first");
 
 dotenv.config();
 
@@ -54,12 +57,15 @@ const transporter = mailerReady
         port: Number(process.env.SMTP_PORT),
         secure: false,
         requireTLS: true,
-        connectionTimeout: 5000,
-        greetingTimeout: 5000,
-        socketTimeout: 5000,
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 15000,
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS
+        },
+        tls: {
+            servername: process.env.SMTP_HOST
         }
     })
     : null;
