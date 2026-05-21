@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://utpstellar.duckdns.org/sitemap.xml
+Sitemap: https://utpstellar.duckdns.org/sitemap-index.xml
