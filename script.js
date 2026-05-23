@@ -35,7 +35,8 @@ if (startupLogo) {
 
       startupScreen.classList.add("hidden");
 mainWebsite.style.display = "block";
-document.body.style.overflowY = "auto";
+
+document.body.style.overflowY = "visible";
 document.documentElement.style.overflowY = "auto";
 
 setTimeout(() => {

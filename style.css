@@ -2484,16 +2484,24 @@ footer {
    SCROLL FIX
 ============================== */
 
-html,
-body {
+/* ==============================
+   SINGLE PAGE SCROLL FIX
+============================== */
+
+html {
     min-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-#main-website {
+body {
+    min-height: 100%;
     overflow-x: hidden;
     overflow-y: visible;
+}
+
+#main-website {
+    overflow: visible;
 }
 
 #startup-screen.hidden {
