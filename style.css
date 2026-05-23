@@ -2430,3 +2430,52 @@ footer {
         max-width: 100%;
     }
 }
+
+/* ==============================
+   WEBSITE CREDIT FOOTER
+============================== */
+
+.site-footer {
+    text-align: center;
+    padding: 38px 20px;
+    background: #05000f;
+    color: #bdb5dc;
+    border-top: 1px solid rgba(188, 168, 255, 0.18);
+}
+
+.site-footer img {
+    width: 60px;
+    margin-bottom: 14px;
+}
+
+.footer-main {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #bdb5dc;
+}
+
+.footer-credit {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #ddd6ff;
+}
+
+.footer-credit strong {
+    color: #ffffff;
+}
+
+.footer-support {
+    font-size: 13px;
+    color: #aaa0c8;
+}
+
+.footer-support a {
+    color: #bca8ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-support a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
