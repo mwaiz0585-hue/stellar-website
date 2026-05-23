@@ -33,11 +33,12 @@ if (startupLogo) {
     startupLogo.addEventListener("click", () => {
         if (startupVideo) startupVideo.pause();
 
-      startupScreen.classList.add("hidden");
+     startupScreen.classList.add("hidden");
 mainWebsite.style.display = "block";
 
-document.body.style.overflowY = "visible";
-document.documentElement.style.overflowY = "auto";
+/* Reset scroll control and let browser handle normal page scrolling */
+document.body.style.overflow = "";
+document.documentElement.style.overflow = "";
 
 setTimeout(() => {
     startupScreen.style.display = "none";
@@ -209,7 +210,7 @@ function closeGalleryModal() {
     if (!galleryModal) return;
 
     galleryModal.style.display = "none";
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = "";
 }
 
 if (closeGallery) {

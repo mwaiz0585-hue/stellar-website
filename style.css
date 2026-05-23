@@ -2481,27 +2481,22 @@ footer {
 }
 
 /* ==============================
-   SCROLL FIX
-============================== */
-
-/* ==============================
-   SINGLE PAGE SCROLL FIX
+   CLEAN SINGLE SCROLLBAR FIX
 ============================== */
 
 html {
-    min-height: 100%;
+    scroll-behavior: smooth;
     overflow-x: hidden;
-    overflow-y: auto;
 }
 
 body {
-    min-height: 100%;
     overflow-x: hidden;
-    overflow-y: visible;
 }
 
 #main-website {
-    overflow: visible;
+    width: 100%;
+    min-height: 100vh;
+    overflow: visible !important;
 }
 
 #startup-screen.hidden {
