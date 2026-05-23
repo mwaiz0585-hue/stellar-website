@@ -2479,3 +2479,25 @@ footer {
     color: #ffffff;
     text-decoration: underline;
 }
+
+/* ==============================
+   SCROLL FIX
+============================== */
+
+html,
+body {
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#main-website {
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+#startup-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}

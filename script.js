@@ -33,10 +33,14 @@ if (startupLogo) {
     startupLogo.addEventListener("click", () => {
         if (startupVideo) startupVideo.pause();
 
-       startupScreen.style.display = "none";
+      startupScreen.classList.add("hidden");
 mainWebsite.style.display = "block";
+document.body.style.overflowY = "auto";
+document.documentElement.style.overflowY = "auto";
 
-document.body.style.overflow = "auto";
+setTimeout(() => {
+    startupScreen.style.display = "none";
+}, 500);
 
 setTimeout(() => {
     document.querySelectorAll(".scroll-reveal").forEach((element) => {
